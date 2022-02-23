@@ -5,49 +5,34 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min); 
 }
 
-//fn per controllare se i due array contengono gli stessi numeri nello stesso ordine
-const equals = (a, b) => 
-{ 
-    if ((a.length === b.length) && (a.every((v, i) => v === b[i])) )
-        return true;
-    return false;  
-}
-
 //fn che si avvia al termine del countdown
 const whenTimeIsOut = () => {
 
     // console.log("sono passati 10 secondi");
     //pulisco il countdown
     clearTimeout(countDown);
-    let check; //inizializzo una variabile booleana
+    let cont = 0; //imposto un contatore per chiedere all'utente 5 volte un numero
 
-    //popolo l'altro array con i numeri che inserisce l'utente
+    //popolo l'altro array solo con i numeri indovinati che inserisce l'utente
     do 
     {
         let temp = parseInt(prompt("inserire numero"));
-        userNums.push(temp);
+        // userNums.push(temp);
+        if ( (randomNums.includes(temp)) && !(userNums.includes(temp)) )
+            userNums.push(temp);
+        cont++;
     } 
-    while (userNums.length < 5)
+    while (cont < 5)
     
     console.log(userNums);
-    
-    // richiamo la fn per comparare i due array
-    check = equals(userNums, randomNums);
-    
-    console.log(check);
 
-    //se sono diversi
-    if (!check)
-        alert("Non hai indovinato!"); //stampo che l'utente non ha indovinato
-    else
-        alert("Hai indovinato!"); //altrimenti stampo che l'utente ha indovinato
+    alert(`Hai indovinato ${userNums.length} numero/i. Numero/i indovinato/i: ${userNums}.`);
 }
 
-//inizializzo i due array che mi servono
-const randomNums = [];
-const userNums = [];
+//inizializzo i due array che mi servono: uno per i num random da indovinare, l'altro per le risposte dell'utente
+const randomNums = [], userNums = [];
 
-// richiamano la fn random, popolo l'array con 5 numeri random interi da 1 a 100
+// richiamando la fn random, popolo l'array con 5 numeri random interi da 1 a 100
 do 
 {
     let temp = getRandomInt(1,100);
@@ -62,4 +47,4 @@ console.log(randomNums);
 alert(randomNums);
 
 // imposto il time out di tot sec e richiamo la fn apposita
-const countDown = setTimeout(whenTimeIsOut, 1000);
+const countDown = setTimeout(whenTimeIsOut, 30000);
